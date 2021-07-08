@@ -38,13 +38,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-  // String型を保存
+  // String型の値をを保存
   void savaStrings(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
   }
 
-  // int型を保存
+  // int型の値を保存
   void saveNumbers(String key, int value) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -58,12 +58,14 @@ class _MyHomePageState extends State<MyHomePage> {
     checkData();
   }
 
-  // 次画面遷移時の値
+  // 次画面遷移時の値を格納するMap
   Map<String, int> nextPageMap = {};
 
+  // 値が保存されているかの判定を行う
   checkData() {
     void prefValues() async {
       final prefs = await SharedPreferences.getInstance();
+      //　値が保存されている場合はタイマー画面を表示する
       if (prefs.getInt('smokingNumber') != null) {
         Navigator.pushReplacement(
           context,
@@ -77,32 +79,9 @@ class _MyHomePageState extends State<MyHomePage> {
    // validationチェック用GlobalKey
   final _formKey = GlobalKey<FormState>();
 
-  //　カレンダーを設定
-  DateTime _date = new DateTime.now();
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: _date,
-        firstDate: new DateTime(2016),
-        lastDate: new DateTime.now().add(new Duration(days: 360)));
-    if (picked != null) setState(() => _date = picked);
-  }
-
-  //
-  TimeOfDay _time = new TimeOfDay.now();
-  Future<Null> _selectTime(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: _time,
-    );
-    if (picked != null) setState(() => _time = picked);
-  }
-
-
   List<Widget> widgetList = [
     Center(
       child: TextFormField(
-        // The validator receives the text that the user has entered.
         validator: (value) {
           if (value == null || value.isEmpty) {
             return '正しい値を入力してください';
@@ -136,6 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 }
               },
               onSaved: (value) {
+                // validatorが通った場合値を保存
                 saveNumbers("smokingNumber", int.parse(value!));
                 nextPageMap.addAll({'smokingNumber': int.parse(value)});
               },
@@ -165,10 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // Validate returns true if the form is valid, or false otherwise.
+                  // validationが正常の場合、値の保存を行い、次画面に遷移する
                   if (_formKey.currentState!.validate()) {
-                    // If the form is valid, display a snackbar. In the real world,
-                    // you'd often call a server or save the information in a database.
 
                     //　現在日時を保持する処理
                     DateTime nowDate = new DateTime.now();

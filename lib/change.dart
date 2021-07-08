@@ -30,13 +30,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  // String型を保存
+  // String型の値を保存
   void savaStrings(String key, String value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
   }
 
-  // int型を保存
+  // int型の値をを保存
   void saveNumbers(String key, int value) async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {

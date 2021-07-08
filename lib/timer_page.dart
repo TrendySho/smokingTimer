@@ -160,13 +160,13 @@ void calc() {
   this.day = day.toString();
   this.hour = hour.toString().length == 1 ? "0" + hour.toString() : hour.toString();
   this.min = min.toString().length == 1 ? "0" + min.toString() : min.toString();
-  // this.sec = remSec.toString().length == 1 ? "0" + remSec.toString() : remSec.toString();
   this.smokingNumbers = number.toString();
   this.savingTime = savingHour.toString() + '時間' + savingMin.toString() + '分';
   this.savingMoney = (savingMoney + remSavingMoney).toString() + '円';
   timerCount(remSec, min, hour, day);
 }
 
+// タイマーのカウントを行う
 Future<void> timerCount(int remSec, int min, int hour, int day) async {
   while(true) {
     await Future<void>.delayed(const Duration(seconds: 1));
